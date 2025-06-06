@@ -17,8 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->string('title');
             $table->string('description');
-            $table->integer('up_votes');
-            $table->integer('down_votes');
+            $table->integer('likes');
             $table->timestamps();
         });
     }

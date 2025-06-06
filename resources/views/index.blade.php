@@ -2,7 +2,7 @@
     <x-glass-container>
         <div class="flex align-center space-x-3 mb-7">
             <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-            <a href="#" class="flex justify-between grow-1 p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-5 border border-gray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
+            <a href="{{ route('posts.create') }}" class="flex justify-between grow-1 p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-5 border border-gray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
                 <span class="">What's on your mind today, Jonas?</span>
                 <svg class="w-6 h-6 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z" />
@@ -54,10 +54,12 @@
                     <p class="text-sm text-gray-300">January 18, 2025</p>
                 </div>
             </div>
-            <div>
-                <h1 class="text-2xl font-bold mb-1">Hello Guys</h1>
-                <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, minima. Blanditiis, voluptate, laudantium aut quibusdam sunt adipisci molestiae doloribus quaerat vitae dicta dignissimos necessitatibus error numquam hic velit nostrum excepturi!</p>
-            </div>
+            <a href="#">
+                <div>
+                    <h1 class="text-2xl font-bold mb-1">Hello Guys</h1>
+                    <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, minima. Blanditiis, voluptate, laudantium aut quibusdam sunt adipisci molestiae doloribus quaerat vitae dicta dignissimos necessitatibus error numquam hic velit nostrum excepturi!</p>
+                </div>
+            </a>
             <x-br />
             <div class="flex space-x-3">
                 <form action="#" method="#">

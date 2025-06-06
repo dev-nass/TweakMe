@@ -1,0 +1,1 @@
+<div {{ $attributes->merge(['class' => 'border border-gray-600 my-5']) }}></div>

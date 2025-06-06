@@ -1,0 +1,14 @@
+
+:root {
+    --clr-black: #0e1217;
+    --clr-grey: #1c1f26;
+}
+
+.bg-dark {
+    background-color: var(--clr-black);
+}
+
+.bg-grey {
+    background-color: var(--clr-grey);
+    border: 1px solid white
+}

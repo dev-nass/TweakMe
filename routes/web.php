@@ -2,13 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/',  function() {
     return view('index');
 })->name('index');
 
-Route::get('/notifcations', function () {
-    return view('notification');
-})->name('notification');
+Route::view('/notifications', 'notification')->name('notification');
 
 Route::get('/friends/requests', function () {
     return view('friends.friend-requests');

@@ -17,8 +17,13 @@
                     <x-form-input id="email" name="username" type="text" />
                 </x-form-field>
                 <x-form-field>
-                    <x-form-label for="email">Email</x-form-label>
-                    <x-form-input id="email" name="email" type="email" />
+                    <x-form-group 
+                        for="email" 
+                        label="Email" 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        validation="email address" />
                 </x-form-field>
                 <x-form-field>
                     <x-form-label for="password">Password</x-form-label>
@@ -28,11 +33,6 @@
                     <x-form-label for="password_confirmation">Confirm Password</x-form-label>
                     <x-form-input id="password_confirmation" name="password_confirmation" type="password" />
                 </x-form-field>
-                <label class="block">
-                    <span class="...">Email</span>
-                    <input type="email" class="peer ..." />
-                    <p class="invisible peer-invalid:visible ...">Please provide a valid email address.</p>
-                </label>
                 <x-form-field class="text-center text-white">
                     <p>Already have an account? <a href="{{ route('login') }}" class="text-blue-500 font-semibold">Sign In</a></p>
                 </x-form-field>

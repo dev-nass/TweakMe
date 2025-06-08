@@ -26,6 +26,7 @@
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
+                        @auth
                         <div>
                             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
@@ -35,10 +36,10 @@
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                    Neil Sims
+                                    {{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}
                                 </p>
                                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    neil.sims@flowbite.com
+                                    {{ Auth::user()->email }}
                                 </p>
                             </div>
                             <ul class="py-1" role="none">
@@ -49,10 +50,15 @@
                                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                                    <button form="logout-form" class="w-full px-4 py-2 text-sm text-gray-700 text-left hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign Out</button>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                                 </li>
                             </ul>
                         </div>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -128,7 +134,7 @@
                         <span class="flex-1 ms-3 whitespace-nowrap">Tags</span>
                     </a>
                 </li>
-                
+
             </ul>
         </div>
     </aside>
@@ -143,7 +149,7 @@
             <h1>Side panel for future use</h1>
         </div>
         @endif
-        
+
     </div>
 
 

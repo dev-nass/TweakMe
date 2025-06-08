@@ -11,17 +11,19 @@
 <body class="bg-dark">
     <section class="h-full flex justify-center items-center">
         <x-glass-container class="w-1/3">
-            <form action="" method="">
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
                 <x-form-field>
-                    <x-form-label for="username">Username or Email</x-form-label>
-                    <x-form-input id="email" name="username" type="text" />
+                    <x-form-label for="login">Username or Email</x-form-label>
+                    <x-form-input id="login" name="login" type="text" />
+                    <x-form-error name="login" />
                 </x-form-field>
                 <x-form-field>
                     <x-form-label for="password">Password</x-form-label>
                     <x-form-input id="password" name="password" type="password" />
                 </x-form-field>
                 <x-form-field class="text-center text-white">
-                    <p>Don't have an account yet? <a href="{{ route('registration') }}" class="text-blue-500 font-semibold">Sign Up</a></p>
+                    <p>Dont have an account yet? <a href="{{ route('registration') }}" class="text-blue-500 font-semibold">Sign Up</a></p>
                 </x-form-field>
                 <x-form-field>
                     <x-form-button>Sign Up</x-form-button>

@@ -11,23 +11,28 @@
 <body class="bg-dark">
     <section class="h-full flex justify-center items-center">
         <x-glass-container class="w-1/3">
-            <form action="" method="">
+            <form action="{{ route('registration') }}" method="POST">
+                @csrf
                 <x-form-field>
                     <x-form-label for="username">Username</x-form-label>
-                    <x-form-input id="email" name="username" type="text" />
+                    <x-form-input id="username" name="username" type="text" :value="old('username')" />
+                    <x-form-error name="username" />
                 </x-form-field>
                 <x-form-field>
-                    <x-form-group 
-                        for="email" 
-                        label="Email" 
-                        id="email" 
-                        name="email" 
-                        type="email" 
+                    <x-form-group
+                        for="email"
+                        label="Email"
+                        id="email"
+                        name="email"
+                        :value="old('email')"
+                        type="email"
                         validation="email address" />
+                    <x-form-error name="email" />
                 </x-form-field>
                 <x-form-field>
                     <x-form-label for="password">Password</x-form-label>
                     <x-form-input id="password" name="password" type="password" />
+                    <x-form-error name="password" />
                 </x-form-field>
                 <x-form-field>
                     <x-form-label for="password_confirmation">Confirm Password</x-form-label>

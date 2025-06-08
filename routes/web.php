@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',  function() {
@@ -16,10 +18,13 @@ Route::get('/posts/create', function () {
     return view('posts.create');
 })->name('posts.create');
 
-Route::get('/registration', function () {
-    return view('auth.registration');
-})->name('registration');
+Route::controller(RegistrationController::class)->group(function () {
+    Route::get('/registration', 'create')->name('registration');
+    Route::post('/registration', 'store')->name('registration');
+});
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'create')->name('login');
+    Route::post('/login', 'store')->name('login');
+    Route::delete('/logout', 'destroy')->name('logout');
+});

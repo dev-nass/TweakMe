@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\PostController;
@@ -24,6 +25,8 @@ Route::controller(PostController::class)->group(function () {
     Route::get('/posts/{post}/edit', 'edit')->name('posts.edit');
     Route::put('/posts/{post}', 'update')->name('posts.update');
 });
+
+Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.delete');
 
 Route::controller(RegistrationController::class)->group(function () {
     Route::get('/registration', 'create')->name('registration');

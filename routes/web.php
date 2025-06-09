@@ -2,10 +2,14 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\PostController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',  function() {
-    return view('index');
+Route::get('/',  function () {
+    return view('index', [
+        'posts' => Post::with('user')->latest()->get(),
+    ]);
 })->name('index');
 
 Route::view('/notifications', 'notification')->name('notification');
@@ -14,9 +18,12 @@ Route::get('/friends/requests', function () {
     return view('friends.friend-requests');
 })->name('friends.friend-requests');
 
-Route::get('/posts/create', function () {
-    return view('posts.create');
-})->name('posts.create');
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/create', 'create')->name('posts.create');
+    Route::post('/posts', 'store')->name('posts.store');
+    Route::get('/posts/{post}/edit', 'edit')->name('posts.edit');
+    Route::put('/posts/{post}', 'update')->name('posts.update');
+});
 
 Route::controller(RegistrationController::class)->group(function () {
     Route::get('/registration', 'create')->name('registration');

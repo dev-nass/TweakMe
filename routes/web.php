@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Models\Post;
@@ -27,6 +28,12 @@ Route::controller(PostController::class)->group(function () {
     Route::get('/posts/{post}/edit', 'edit')->name('posts.edit');
     Route::put('/posts/{post}', 'update')->name('posts.update');
     Route::delete('/posts/{post}', 'destroy')->name('posts.delete');
+});
+
+Route::controller(CommentController::class)->group(function () {
+    Route::get('/posts/{post}/comment', 'store')->name('comments.store');
+    Route::get('/post/comment/{comment}/edit', 'edit')->name('comments.edit');
+    Route::put('/post/comment/{comment}', 'update')->name('comments.update');
 });
 
 Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('likes.store');

@@ -60,6 +60,16 @@ class Post extends Model
 
         // return false;
 
+        if (! Auth::user()) {
+            return false;
+        }
+
         return $this->likes()->where('user_id', '=', Auth::user()->id)->exists();
+    }
+
+    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

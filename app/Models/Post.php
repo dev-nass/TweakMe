@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
+    /**
+     * Retrieves the user who
+     * created the Post
+    */
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -27,5 +32,34 @@ class Post extends Model
     public function attachments()
     {
         return $this->hasMany(Attachment::class);
+    }
+
+    /**
+     * Retrieves the likes that a single
+     * Post have
+    */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+
+    /**
+     * Returns a boolean and check if the user
+     * has liked the post or not
+    */
+    public function hasLikedByUser()
+    {
+        // $post = Post::findOrFail($post_id);
+
+        // foreach ($post->likes as $like) {
+        //     if (Auth::user()->id === $like->user_id) {
+        //         return true;
+        //     }
+        // }
+
+        // return false;
+
+        return $this->likes()->where('user_id', '=', Auth::user()->id)->exists();
     }
 }

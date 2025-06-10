@@ -80,6 +80,27 @@ class PostController extends Controller
 
 
     /**
+     * Used for showing a specific 
+     * Post and later on its comments too
+    */
+    public function show(Post $post)
+    {
+
+        $tagName = [];
+
+        foreach ($post->tags as $tag) {
+            $tagName[] = $tag->name;
+        }
+
+
+        return view('posts.show', [
+            'post' => $post,
+            'tagName' => $tagName
+        ]);
+    }
+
+
+    /**
      * Loads the view and specific record
      * for Editing
      */
@@ -141,6 +162,23 @@ class PostController extends Controller
         }
 
         $post->tags()->sync($tagIds);
+
+        return to_route('index');
+    }
+
+
+    /**
+     * Delete a specific Post
+    */
+    public function destroy(Post $post)
+    {
+
+        // delete each atachment of the post
+        foreach($post->attachments as $attachment) {
+            Storage::disk('public')->delete($attachment->dir);
+        }
+
+        $post->delete();
 
         return to_route('index');
     }

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use function PHPUnit\Framework\returnValueMap;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -46,6 +48,10 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Retrieves the users posts, if
+     * there's any
+     */
     public function posts()
     {
         return $this->hasMany(Post::class);

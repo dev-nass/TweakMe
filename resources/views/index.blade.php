@@ -117,8 +117,10 @@
 
             </div>
             <div>
-                <h1 class="text-2xl font-bold mb-1">{{ $post->title }}</h1>
-                <p class="text-justify">{{ $post->description }}</p>
+                <a href="{{ route('posts.show', [$post->id]) }}">
+                    <h1 class="text-2xl font-bold mb-1">{{ $post->title }}</h1>
+                    <p class="text-justify">{{ $post->description }}</p>
+                </a>
                 @if($post->attachments->isNotEmpty())
                 <div id="gallery" class="relative w-full" data-carousel="slide">
                     <!-- Carousel wrapper -->
@@ -152,18 +154,35 @@
                 </div>
                 @endif
             </div>
+
             <x-br />
             <div class="flex space-x-3">
-                <form action="#" method="#">
+                @if (! $post->hasLikedByUser())
+                <form action="{{ route('likes.store', [$post->id]) }}" method="POST">
+                    @csrf
                     <button class="flex space-x-1 py-1 px-2 rounded-xl transition duration-300 hover:bg-gray-500">
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
                         </svg>
-                        <span>999,9999</span>
+                        <span>{{ $post->likes->count() }}</span>
                         <span>Like</span>
                     </button>
                 </form>
-                <a href="" class="flex space-x-1 py-1 px-2 rounded-xl transition duration-300 hover:bg-gray-500">
+                @elseif ($post->hasLikedByUser())
+                <form action="{{ route('likes.delete', [$post->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="flex space-x-1 py-1 px-2 rounded-xl transition duration-300 hover:bg-gray-500">
+                        <svg class="w-6 h-6 text-red-500 fill-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+                        </svg>
+                        <span>{{ $post->likes->count() }}</span>
+                        <span>Like</span>
+                    </button>
+                </form>
+                @endif
+
+                <a href="{{ route('posts.show', [$post->id]) }}" class="flex space-x-1 py-1 px-2 rounded-xl transition duration-300 hover:bg-gray-500">
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.556 8.5h8m-8 3.5H12m7.111-7H4.89a.896.896 0 0 0-.629.256.868.868 0 0 0-.26.619v9.25c0 .232.094.455.26.619A.896.896 0 0 0 4.89 16H9l3 4 3-4h4.111a.896.896 0 0 0 .629-.256.868.868 0 0 0 .26-.619v-9.25a.868.868 0 0 0-.26-.619.896.896 0 0 0-.63-.256Z" />
                     </svg>

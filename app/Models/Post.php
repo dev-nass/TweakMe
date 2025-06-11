@@ -85,4 +85,13 @@ class Post extends Model
     {
         return $this->hasMany(Retweak::class);
     }
+
+
+    /**
+     * 
+    */
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
 }

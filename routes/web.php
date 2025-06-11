@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
@@ -37,6 +38,9 @@ Route::controller(PostController::class)->group(function () {
         ->can('delete', 'post');
 });
 
+Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])
+    ->name('attachments.delete');
+
 Route::controller(CommentController::class)->group(function () {
     Route::get('/posts/{post}/comment', 'store')->name('comments.store');
     Route::get('/posts/comment/{comment}/edit', 'edit')->name('comments.edit');
@@ -44,13 +48,19 @@ Route::controller(CommentController::class)->group(function () {
     Route::delete('/posts/comments/{comment}', 'destroy')->name('comments.delete');
 });
 
-Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('likes.store');
-Route::delete('/posts/{post}/unlike', [LikeController::class, 'destroy'])->name('likes.delete');
-Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.delete');
+Route::controller(LikeController::class)->group(function () {
+    Route::post('/posts/{post}/like', 'store')->name('likes.store');
+    Route::delete('/posts/{post}/unlike', 'destroy')->name('likes.delete');
+});
 
 Route::controller(RetweakController::class)->group(function () {
     Route::get('/retweak/post/{post}', 'create')->name('retweaks.create');
     Route::post('/retweak/post/{post}', 'store')->name('retweaks.store');
+});
+
+Route::controller(BookmarkController::class)->group(function () {
+    Route::post('posts/{post}/bookmark', 'store')->name('bookmarks.store');
+    Route::delete('posts/{post}/unbookmark', 'destroy')->name('bookmarks.delete');
 });
 
 Route::controller(RegistrationController::class)->group(function () {

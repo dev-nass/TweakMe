@@ -26,6 +26,7 @@ class LikeController extends Controller
             'user_id' => Auth::user()->id
         ]);
 
+        // WHERE DOES THIS RETURNS TOO???
         return response()->json(['message' => 'Liked']);
     }
 

@@ -229,6 +229,8 @@
                     <span>{{ $post->comments->count() }}</span>
                     <span>Comment</span>
                 </a>
+
+
                 <a href="{{ route('retweaks.create', [$post->id]) }}" class="flex space-x-1 py-1 px-2 rounded-xl transition duration-300 hover:bg-gray-500">
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -238,6 +240,23 @@
                     <span>{{ $post->retweaks->count() }}</span>
                     <span>Retweak</span>
                 </a>
+
+
+                @php
+                $hasBookmarked = $post->bookmarks->contains('user_id', Auth::user()->id);
+                @endphp
+                <button
+                    class="bookmarkBtns flex space-x-1 py-1 px-2 rounded-xl transition duration-300 {{ Auth::user() ? 'hover:bg-gray-500' : 'cursor-not-allowed' }}"
+                    data-bookmark-url="{{ route('bookmarks.store', [$post->id]) }}"
+                    data-unbookmark-url="{{ route('bookmarks.delete', [$post->id]) }}"
+                    data-post-id="{{ $post->id }}"
+                    data-bookmarked="{{ $hasBookmarked ? 'true' : 'false' }}">
+                    <svg class="bookmark-svg w-5 h-5 {{ $hasBookmarked ? 'fill-white' : '' }} text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
+                    </svg>
+                    <span class="bookmark-count">{{ $post->bookmarks->count() }}</span>
+                    <span class="bookmark-label">{{ $hasBookmarked ? 'Unbookmark' : 'Bookmark' }}</span>
+                </button>
             </div>
         </x-glass-container>
         @endforeach
@@ -258,7 +277,7 @@
 
         buttons.forEach(button => {
             button.addEventListener('click', () => {
-                const labelLabel = button.querySelector('.like-label');
+                const likeLabel = button.querySelector('.like-label');
                 const likeSvg = button.querySelector('.like-svg');
                 const likeCount = button.querySelector('.like-count');
 
@@ -281,7 +300,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        labelLabel.textContent = liked ? 'Like' : 'Unlike';
+                        likeLabel.textContent = liked ? 'Like' : 'Unlike';
                         button.dataset.liked = liked ? 'false' : 'true';
                         if (liked) {
                             likeSvg.classList.remove('fill-red-500', 'text-red-500');
@@ -299,6 +318,54 @@
                         count = liked ? count - 1 : count + 1;
                         likeCount.dataset.likeCount = count;
                         likeCount.textContent = count;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const bookmarkBtns = document.querySelectorAll('.bookmarkBtns');
+
+        bookmarkBtns.forEach(button => {
+            button.addEventListener('click', () => {
+                let bookmarkSvg = button.querySelector('.bookmark-svg');
+                let bookmarkCount = button.querySelector('.bookmark-count');
+                let bookmarkLabel = button.querySelector('.bookmark-label');
+
+                const postId = button.dataset.postId;
+                const bookmarked = button.dataset.bookmarked === 'true';
+                const method = bookmarked ? 'DELETE' : 'POST';
+                const url = bookmarked ?
+                    button.dataset.unbookmarkUrl :
+                    button.dataset.bookmarkUrl
+
+                fetch(url, {
+                        method: method,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        bookmarkLabel.textContent = bookmarked ? 'Bookmark' : 'Unbookmark';
+                        button.dataset.bookmarked = bookmarked ? false : true;
+
+                        if (bookmarked) {
+                            bookmarkSvg.classList.remove('fill-white');
+                        } else {
+                            bookmarkSvg.classList.add('fill-white');
+                        }
+
+                        let count = parseInt(bookmarkCount.textContent, 10) || 0;
+                        count = bookmarked ? count - 1 : count + 1;
+                        bookmarkCount.textContent = count;
                     })
                     .catch(error => {
                         console.error('Error:', error);

@@ -115,6 +115,8 @@
                     <a href="#">{{ $post->user->username }}</a>
                     <p class="text-sm text-gray-300">{{ $post->created_at->format('F d, Y') }}</p>
                 </div>
+
+                @can('update', $post)
                 <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots-{{ $post->id }}"
                     class="inline-flex items-center ml-auto p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                     type="button">
@@ -140,6 +142,8 @@
                             link</a>
                     </div>
                 </div>
+                @endcan
+
 
             </div>
             <div>
@@ -225,18 +229,15 @@
                     <span>{{ $post->comments->count() }}</span>
                     <span>Comment</span>
                 </a>
-                <form action="#" method="#">
-                    <button
-                        class="flex space-x-1 py-1 px-2 rounded-xl transition duration-300 {{ Auth::user() ? 'hover:bg-gray-500' : 'cursor-not-allowed' }}"
-                        {{ Auth::user() ? '' : 'disabled' }}>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m15.141 6 5.518 4.95a1.05 1.05 0 0 1 0 1.549l-5.612 5.088m-6.154-3.214v1.615a.95.95 0 0 0 1.525.845l5.108-4.251a1.1 1.1 0 0 0 0-1.646l-5.108-4.251a.95.95 0 0 0-1.525.846v1.7c-3.312 0-6 2.979-6 6.654v1.329a.7.7 0 0 0 1.344.353 5.174 5.174 0 0 1 4.652-3.191l.004-.003Z" />
-                        </svg>
-                        <span>Re-Tweak</span>
-                    </button>
-                </form>
+                <a href="{{ route('retweaks.create', [$post->id]) }}" class="flex space-x-1 py-1 px-2 rounded-xl transition duration-300 hover:bg-gray-500">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m15.141 6 5.518 4.95a1.05 1.05 0 0 1 0 1.549l-5.612 5.088m-6.154-3.214v1.615a.95.95 0 0 0 1.525.845l5.108-4.251a1.1 1.1 0 0 0 0-1.646l-5.108-4.251a.95.95 0 0 0-1.525.846v1.7c-3.312 0-6 2.979-6 6.654v1.329a.7.7 0 0 0 1.344.353 5.174 5.174 0 0 1 4.652-3.191l.004-.003Z" />
+                    </svg>
+                    <span>{{ $post->retweaks->count() }}</span>
+                    <span>Retweak</span>
+                </a>
             </div>
         </x-glass-container>
         @endforeach

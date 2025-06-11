@@ -68,8 +68,21 @@ class Post extends Model
     }
 
     
+    /**
+     * Used for retrieving a post
+     * comments
+    */
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+
+    /**
+     * 
+    */
+    public function retweaks()
+    {
+        return $this->hasMany(Retweak::class);
     }
 }

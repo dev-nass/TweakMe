@@ -115,8 +115,11 @@
                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                         </li>
                         <li>
-                            <a href="{{ route('posts.edit', [$post->id]) }}"
-                                class="block px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600">Delete</a>
+                            <form action="{{ route('comments.delete', [$comment->id]) }}" method="POST" class="block px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                @csrf
+                                @method('DELETE')
+                                <button class="w-full text-left">Delete</button>
+                            </form>
                         </li>
                     </ul>
                 </div>

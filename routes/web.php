@@ -32,12 +32,13 @@ Route::controller(PostController::class)->group(function () {
 
 Route::controller(CommentController::class)->group(function () {
     Route::get('/posts/{post}/comment', 'store')->name('comments.store');
-    Route::get('/post/comment/{comment}/edit', 'edit')->name('comments.edit');
-    Route::put('/post/comment/{comment}', 'update')->name('comments.update');
+    Route::get('/posts/comment/{comment}/edit', 'edit')->name('comments.edit');
+    Route::put('/posts/comment/{comment}', 'update')->name('comments.update');
+    Route::delete('/posts/comments/{comment}', 'destroy')->name('comments.delete');
 });
 
 Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('likes.store');
-Route::delete('/posts/{post}/like', [LikeController::class, 'destroy'])->name('likes.delete');
+Route::delete('/posts/{post}/unlike', [LikeController::class, 'destroy'])->name('likes.delete');
 Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.delete');
 
 Route::controller(RegistrationController::class)->group(function () {

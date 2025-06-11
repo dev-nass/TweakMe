@@ -10,7 +10,12 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
 
-    //
+    /**
+     * Used for listening to a form submit
+     * and stores a comment
+     * ...
+     * The create for this is on the posts/show.blade.php
+    */
     public function store(Request $request, Post $post)
     {
 
@@ -29,6 +34,10 @@ class CommentController extends Controller
 
 
 
+    /**
+     * Used for loading the view for 
+     * editing a comment
+    */
     public function edit(Comment $comment)
     {
         return view('comments.edit', [
@@ -38,6 +47,10 @@ class CommentController extends Controller
 
 
 
+    /**
+     * Used for listening to a form submit and
+     * updates a comment
+    */
     public function update(Request $request, Comment $comment)
     {
 
@@ -48,5 +61,19 @@ class CommentController extends Controller
         $comment->update($content);
 
         return to_route('posts.show', [$comment->post->id]);
+    }
+
+
+    
+    /**
+     * Used for deleting a comment on a 
+     * single post
+    */
+    public function destroy(Comment $comment)
+    {
+
+        $comment->delete();
+
+        return redirect()->back();
     }
 }

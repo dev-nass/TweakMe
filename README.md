@@ -15,3 +15,10 @@ fetch(url, {
 })
 .then(response => response.json())
 ```
+
+# Notification Feature
+- Polymorphic relationship allows me to create a very simple notification system
+- Open the filkes to the following order to follow through the logic:
+```
+migrations/notification > models/Notifcation > (polymorphic rs) > models/Retweak, models/Like, models/Comments
+```

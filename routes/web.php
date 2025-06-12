@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RetweakController;
 use App\Models\Post;
@@ -18,7 +19,10 @@ Route::get('/',  function () {
     ]);
 })->name('index')->middleware('auth');
 
-Route::view('/notifications', 'notification')->name('notification');
+Route::controller(NotificationController::class)->group(function () {
+    Route::get('/notifications', 'index')->name('notifications');
+    Route::delete('/notifications/{notification}', 'destroy')->name('notifications.delete');
+});
 
 Route::controller(AddFriendRequestController::class)->group(function () {
     Route::get('/friends/requests', 'index')->name('friends.friend-requests');
@@ -26,11 +30,13 @@ Route::controller(AddFriendRequestController::class)->group(function () {
     Route::delete('/friends/requests/{addFrientRequest}', 'destroy')->name('friends.delete');
 });
 
-
 Route::controller(PostController::class)->group(function () {
-    Route::get('/post/create', 'create')->name('posts.create');
-    Route::post('/posts', 'store')->name('posts.store');
-    Route::get('/post/{post}', 'show')->name('posts.show');
+    Route::get('/post/create', 'create')
+        ->name('posts.create');
+    Route::post('/posts', 'store')
+        ->name('posts.store');
+    Route::get('/post/{post}', 'show')
+        ->name('posts.show');
     Route::get('/posts/{post}/edit', 'edit')
         ->name('posts.edit')
         ->can('update', 'post');

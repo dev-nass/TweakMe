@@ -9,4 +9,10 @@ class Like extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
+
+    //
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Like;
+use App\Models\Notification;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class LikeController extends Controller
 {
@@ -22,8 +24,19 @@ class LikeController extends Controller
         // return to_route('index');
 
         // AJAX APPROACH
-        $post->likes()->firstOrCreate([
+        $like = $post->likes()->firstOrCreate([
             'user_id' => Auth::user()->id
+        ]);
+
+        Notification::create([
+            'user_id' => $post->user->id,
+            'notifiable_id' => $like->id,
+            'notifiable_type' => Like::class,
+            'data' => [
+                'commenter_name' => Auth::user()->username,
+                'post_id'        => $like->post_id,
+                'excerpt'        => Str::limit('has liked your post', 50),
+            ],
         ]);
 
         // WHERE DOES THIS RETURNS TOO???

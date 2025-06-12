@@ -18,4 +18,10 @@ class Retweak extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+     //
+    public function notification()
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
 }

@@ -12,10 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('add_frient_requests', function (Blueprint $table) {
+        Schema::create('add_friend_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'sender_id');
-            $table->foreignIdFor(User::class, 'receiver_id');
+            $table->foreignIdFor(User::class, 'sender_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'receiver_id')->constrained()->cascadeOnDelete();
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

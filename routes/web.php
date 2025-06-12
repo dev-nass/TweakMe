@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddFriendRequestController;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
@@ -19,9 +20,12 @@ Route::get('/',  function () {
 
 Route::view('/notifications', 'notification')->name('notification');
 
-Route::get('/friends/requests', function () {
-    return view('friends.friend-requests');
-})->name('friends.friend-requests');
+Route::controller(AddFriendRequestController::class)->group(function () {
+    Route::get('/friends/requests', 'index')->name('friends.friend-requests');
+    Route::put('/friends/requests/{addFrientRequest}', 'update')->name('friends.update');
+    Route::delete('/friends/requests/{addFrientRequest}', 'destroy')->name('friends.delete');
+});
+
 
 Route::controller(PostController::class)->group(function () {
     Route::get('/post/create', 'create')->name('posts.create');

@@ -4,6 +4,7 @@ use App\Http\Controllers\AddFriendRequestController;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\auth\SocialiteController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
@@ -82,4 +83,9 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'create')->name('login');
     Route::post('/login', 'store')->name('login');
     Route::delete('/logout', 'destroy')->name('logout');
+});
+
+Route::controller(SocialiteController::class)->group(function () {
+    Route::get('auth/google', 'googleLogin')->name('auth.google');
+    Route::get('auth/google-callback', 'googleAuthentication')->name('auth.google-callback');
 });

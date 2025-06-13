@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class RegistrationController extends Controller
 {
@@ -18,7 +19,7 @@ class RegistrationController extends Controller
     /**
      * Listens for the form submit of
      * Registration form
-    */
+     */
     public function store(Request $request)
     {
 
@@ -28,9 +29,16 @@ class RegistrationController extends Controller
             'password' => ['required', 'string', Password::min(8)->letters()->numbers()->max(255), 'confirmed']
         ]);
 
+        $googleEmailChecker = User::where('email', '=', $userAttributes['email'])->first();
+
+        if ($googleEmailChecker && $googleEmailChecker->google_id) {
+            throw ValidationException::withMessages([
+                'email' => 'This account was registered using Google login. Please sign in with Google.',
+            ]);
+        }
+
         User::create($userAttributes);
 
         return view('auth.login');
-
     }
 }

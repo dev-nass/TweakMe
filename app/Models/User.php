@@ -55,7 +55,14 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class)
+            ->orderByDesc('created_at');
+    }
+
+
+    public function retweaks()
+    {
+        return $this->hasMany(Retweak::class);
     }
 
 

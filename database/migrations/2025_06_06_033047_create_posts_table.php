@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('content');
             $table->foreignIdFor(Post::class, 'parent_id')->nullable()->constrained()->cascadeOnDelete();
             $table->boolean('is_retweak')->default(false);
+            $table->string('audience');
             $table->timestamps();
         });
     }

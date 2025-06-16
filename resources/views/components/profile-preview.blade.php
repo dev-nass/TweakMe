@@ -1,4 +1,4 @@
-@props(['friendsPage' => false, 'user' => $user, 'request' => $request])
+@props(['friendsPage' => false, 'user', 'request'])
 
 <x-layout rightPanel="hidden">
 

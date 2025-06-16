@@ -14,6 +14,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RetweakController;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,7 +22,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/',  function () {
         return view('index', [
-            'posts' => Post::with(['user', 'retweaks'])->inRandomOrder()->get(),
+            'posts' => Post::with(['user', 'retweaks'])
+                ->inRandomOrder()
+                ->whereIn('audience', ['public', 'friends'])
+                ->get(),
         ]);
     })->name('index');
 

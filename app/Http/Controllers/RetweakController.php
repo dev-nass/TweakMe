@@ -29,6 +29,7 @@ class RetweakController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string', 'max:255'],
             'tags' => ['required', 'string'],
+            'audience' => ['required', 'string']
         ]);
 
         $retweak = Post::create([
@@ -37,6 +38,7 @@ class RetweakController extends Controller
             'content' => $request->content,
             'parent_id' => $post->id,
             'is_retweak' => true,
+            'audience' => $request->audience,
         ]);
 
         Notification::create([

@@ -102,6 +102,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('status', '=', 'pending');
     }
 
+    /**
+     * Retrieves all friends of the user
+     */
     public function friends()
     {
         return $this->hasMany(AddFriendRequest::class, 'receiver_id')

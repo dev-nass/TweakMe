@@ -17,6 +17,7 @@ class FriendController extends Controller
     public function index()
     {
         $requests = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
+            ->whereOr('sender_id', '=', Auth::user()->id)
             ->where('status', '=', 'accepted')
             ->get();
 

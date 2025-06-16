@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->string('description');
+            $table->string('content');
+            $table->foreignIdFor(Post::class, 'parent_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->boolean('is_retweak')->default(false);
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@
         </svg>
         <span class="sr-only">Info</span>
         <div class="ms-3 text-sm font-medium">
-            {{ $notification->data['commenter_name'] }} <a href="{{ route('posts.show', [$notification->notifiable->post->id]) }}" class="font-semibold underline hover:no-underline">{{ $notification->data['excerpt'] }}</a>.
+            {{ $notification->data['commenter_name'] }} <a href="{{ route('posts.show', [$notification->notifiable_id]) }}" class="font-semibold underline hover:no-underline">{{ $notification->data['excerpt'] }}</a>.
         </div>
         <form class="ms-auto mx-1.5 -my-1.5" action="{{ route('notifications.delete', [$notification->id]) }}" method="POST">
             @csrf

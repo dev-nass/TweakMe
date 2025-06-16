@@ -32,14 +32,14 @@ class PostController extends Controller
 
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string', 'max:255'],
             'tags' => ['required', 'string'],
         ]);
 
         $post = Post::create([
             'user_id' => Auth::user()->id,
             'title' => $request->title,
-            'description' => $request->description,
+            'content' => $request->content,
         ]);
 
         // allows multiple file upload now

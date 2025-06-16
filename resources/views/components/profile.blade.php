@@ -26,8 +26,8 @@
                 Joined {{ Auth::user()->created_at->format('F d, Y') }}
             </p>
             <div class="text-gray-400 flex space-x-3">
-                <p><span class="text-white font-semibold">0</span> Following</p>
-                <p><span class="text-white font-semibold">0</span> Followers</p>
+                <a href="{{ route('friends.index', [Auth::user()->id]) }}"><span class="text-white font-semibold">{{ Auth::user()->friends->count() }}</span> Friends</a>
+                <a href="{{ route('friend-request.index', [Auth::user()->id]) }}"><span class="text-white font-semibold">{{ Auth::user()->friendRequests->count() }}</span> Followers</a>
             </div>
         </section>
     </div>
@@ -36,8 +36,8 @@
         <nav class="grid grid-cols-4 text-center">
             <x-profile-link href="{{ route('profile.posts', ['user' => Auth::user()->id]) }}" :active="request()->routeIs('profile.posts')">Posts</x-profile-link>
             <x-profile-link href="{{ route('profile.retweaks', ['user' => Auth::user()->id]) }}" :active="request()->routeIs('profile.retweaks')">Retweaks</x-profile-link>
-            <x-profile-link href="#" :active="request()->is('tae')">Bookmarks</x-profile-link>
-            <x-profile-link href="#" :active="request()->is('tae')">Likes</x-profile-link>
+            <x-profile-link href="{{ route('profile.bookmarks', ['user' => Auth::user()->id]) }}" :active="request()->routeIs('profile.bookmarks')">Bookmarks</x-profile-link>
+            <x-profile-link href="{{ route('profile.likes', ['user' => Auth::user()->id]) }}" :active="request()->routeIs('profile.likes')">Likes</x-profile-link>
         </nav>
 
         <section>

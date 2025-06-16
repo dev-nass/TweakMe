@@ -14,7 +14,7 @@ class Post extends Model
     /**
      * Retrieves the user who
      * created the Post
-    */
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -28,7 +28,7 @@ class Post extends Model
     /**
      * Used for inserting or retrieving a Posts
      * attachments be a image or video
-    */
+     */
     public function attachments()
     {
         return $this->hasMany(Attachment::class);
@@ -37,7 +37,7 @@ class Post extends Model
     /**
      * Retrieves the likes that a single
      * Post have
-    */
+     */
     public function likes()
     {
         return $this->hasMany(Like::class);
@@ -47,7 +47,7 @@ class Post extends Model
     /**
      * Returns a boolean and check if the user
      * has liked the post or not
-    */
+     */
     public function hasLikedByUser()
     {
         // $post = Post::findOrFail($post_id);
@@ -67,31 +67,48 @@ class Post extends Model
         return $this->likes()->where('user_id', '=', Auth::user()->id)->exists();
     }
 
-    
+
     /**
      * Used for retrieving a post
      * comments
-    */
+     */
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Return a single retweak, used within 
+     * index.blade.php for retrieving a post
+     * record's retweak, if (is_retweak == 1)
+     */
+    public function retweak()
+    {
+        return $this->belongsTo(Post::class, 'parent_id');
+    }
 
     /**
-     * 
-    */
+     * Returns a post retweaks, not used
+     * yet
+     */
     public function retweaks()
     {
-        return $this->hasMany(Retweak::class);
+        return $this->hasMany(Post::class, 'parent_id');
     }
 
 
     /**
      * 
-    */
+     */
     public function bookmarks()
     {
         return $this->hasMany(Bookmark::class);
+    }
+
+
+    //
+    public function notification()
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
     }
 }

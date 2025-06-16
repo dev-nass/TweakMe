@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\auth\SocialiteController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
@@ -17,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/',  function () {
         return view('index', [
-            'posts' => Post::with('user')->inRandomOrder()->get(),
+            'posts' => Post::with(['user', 'retweaks'])->inRandomOrder()->get(),
         ]);
     })->name('index');
 
@@ -29,9 +31,16 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(AddFriendRequestController::class)->group(function () {
-        Route::get('/friends/requests', 'index')->name('friends.friend-requests');
-        Route::put('/friends/requests/{addFrientRequest}', 'update')->name('friends.update');
-        Route::delete('/friends/requests/{addFrientRequest}', 'destroy')->name('friends.delete');
+        Route::get('/friends/requests', 'index')
+            ->name('friend-request.index');
+        Route::get('/friends/requests/profile/{user}', 'posts')
+            ->name('friend-request.posts');
+        Route::get('/friends/requests/profile/{user}/retweaks', 'retweaks')
+            ->name('friend-request.retweaks');
+        Route::put('/friends/requests/{addFrientRequest}', 'update')
+            ->name('friend-request.update');
+        Route::delete('/friends/requests/{addFrientRequest}', 'destroy')
+            ->name('friend-request.delete');
     });
 
     Route::controller(PostController::class)->group(function () {
@@ -80,6 +89,15 @@ Route::middleware('auth')->group(function () {
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user}', 'posts')->name('profile.posts');
         Route::get('/profile/{user}/retweaks', 'retweaks')->name('profile.retweaks');
+        Route::get('/profile/{user}/bookmarks', 'bookmarks')->name('profile.bookmarks');
+        Route::get('/profile/{user}/likes', 'likes')->name('profile.likes');
+    });
+
+    Route::controller(FriendController::class)->group(function () {
+        Route::get('/friends', 'index')->name('friends.index');
+        Route::get('/friends/{user}/profile', 'posts')->name('friends.posts');
+        Route::get('/friends/{user}/retweak', 'retweaks')->name('friends.retweaks');
+        Route::delete('/friends/{addFrientRequest}', 'destroy')->name('friends.delete');
     });
 });
 

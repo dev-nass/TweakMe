@@ -8,8 +8,16 @@
                 <x-form-input id="title" name="title" type="text" placeholder="Feeling blessed" />
             </x-form-field>
             <x-form-field>
-                <x-form-label for="description">Description</x-form-label>
-                <textarea id="message" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="What's on your mind.."></textarea>
+                <x-form-label for="content">Content</x-form-label>
+                <textarea id="message" name="content" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="What's on your mind.."></textarea>
+            </x-form-field>
+            <x-form-field>
+                <x-form-label for="tags">Tags</x-form-label>
+                <x-form-input id="tags" name="tags" type="text" placeholder="happy, blessed, enjoy, excited" />
+            </x-form-field>
+            <x-form-field>
+                <x-form-label for="attachment">Attachment</x-form-label>
+                <x-form-input id="attachment" name="attachments[]" multiple type="file" />
             </x-form-field>
             <x-glass-container class="mb-3">
                 <div class="flex align-center space-x-3 mb-4">
@@ -22,7 +30,7 @@
                 </div>
                 <div class="mb-3">
                     <h1 class="text-2xl font-bold mb-1">{{ $post->title }}</h1>
-                    <p class="text-justify">{{ $post->description }}</p>
+                    <p class="text-justify">{{ $post->content }}</p>
                 </div>
                 <div class="grid {{ $post->attachments->count() > 1 ? 'grid-cols-2 gap-2 mb-2' : 'grid-cols-1' }} ">
                     @foreach ($post->attachments as $attachment)

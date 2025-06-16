@@ -20,7 +20,7 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(),
             'title' => fake()->word(),
-            'description' => fake()->text(255),
+            'content' => fake()->text(255),
         ];
     }
 }

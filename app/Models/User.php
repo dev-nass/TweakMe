@@ -60,9 +60,33 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    /**
+     * Retrieves the users retweak, if
+     * there's any
+     */
     public function retweaks()
     {
-        return $this->hasMany(Retweak::class);
+        return $this->hasMany(Post::class)->whereNotNull('parent_id');
+    }
+
+
+    /**
+     * Retrieves the user's bookmarked posts,
+     * if there's any
+     */
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+
+    /**
+     * Retrieves the user's liked posts,
+     * if there's any
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 
 
@@ -70,5 +94,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    public function friendRequests()
+    {
+        return $this->hasMany(AddFriendRequest::class, 'receiver_id')
+            ->where('status', '=', 'pending');
+    }
+
+    public function friends()
+    {
+        return $this->hasMany(AddFriendRequest::class, 'receiver_id')
+            ->where('status', '=', 'accepted');
     }
 }

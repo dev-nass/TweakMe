@@ -1,8 +1,8 @@
 <x-profile>
 
-    <div class="pt-6">
-        @if ($retweaks->isNotEmpty())
-        @foreach ($retweaks as $retweak)
+    <div class="pt-6 grid grid-cols-1 gap-y-4">
+        @if ($posts->isNotEmpty())
+        @foreach ($posts as $post)
         <x-glass-container>
 
             <!-- retweak header -->
@@ -10,11 +10,11 @@
                 <img class="w-12 h-12 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                     alt="user photo">
                 <div>
-                    <a href="#">{{ $retweak->user->username }}</a>
+                    <a href="#">{{ $post->user->username }}</a>
                     <p class="text-sm text-gray-300">{{ $post->created_at->format('F d, Y') }}</p>
                 </div>
 
-                @can('update', $retweak)
+                @can('update', $post)
                 <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots-{{ $post->id }}"
                     class="inline-flex items-center ml-auto p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                     type="button">
@@ -26,7 +26,7 @@
                 </button>
 
                 <!-- Dropdown menu -->
-                <div id="dropdownDots-{{ $retweak->id }}"
+                <div id="dropdownDots-{{ $post->id }}"
                     class="z-100 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                         <li>
@@ -47,12 +47,79 @@
 
             <!-- post body -->
             <div>
-                <a href="{{ route('posts.show', [$retweak->id]) }}">
-                    <h1 class="text-2xl font-bold mb-1">{{ $retweak->title }}</h1>
-                    <p class="text-justify">{{ $retweak->description }}</p>
+                <a href="{{ route('posts.show', [$post->id]) }}">
+                    <h1 class="text-2xl font-bold mb-1">{{ $post->title }}</h1>
+                    <p class="text-justify">{{ $post->content }}</p>
                 </a>
                 <div>
-                    
+                    @if($post->attachments->isNotEmpty())
+                    <div id="gallery" class="relative w-full" data-carousel="slide">
+                        <!-- Carousel wrapper -->
+                        <div class="relative h-56 overflow-hidden rounded-lg md:h-90">
+                            <!-- Item 1 -->
+                            @foreach($post->attachments as $attachment)
+                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                <img src="{{ asset('storage/' . $attachment->dir) }}"
+                                    class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                                    alt="">
+                            </div>
+                            @endforeach
+                        </div>
+                        @if(count($post->attachments) > 1)
+                        <!-- Slider controls -->
+                        <button type="button"
+                            class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                            data-carousel-prev>
+                            <span
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M5 1 1 5l4 4" />
+                                </svg>
+                                <span class="sr-only">Previous</span>
+                            </span>
+                        </button>
+                        <button type="button"
+                            class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                            data-carousel-next>
+                            <span
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                                <span class="sr-only">Next</span>
+                            </span>
+                        </button>
+                        @endif
+                    </div>
+                    @endif
+
+                    @if ($post->is_retweak == true)
+                    <x-glass-container class="mb-3 mt-3">
+                        <div class="flex align-center space-x-3 mb-4">
+                            <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                alt="user photo">
+                            <div>
+                                <a href="#">{{ $post->retweak->user->username }}</a>
+                                <p class="text-sm text-gray-300">{{ $post->retweak->created_at->format('F d, Y') }}</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <h1 class="text-2xl font-bold mb-1">{{ $post->retweak->title }}</h1>
+                            <p class="text-justify">{{ $post->retweak->content }}</p>
+                        </div>
+                        <div class="grid {{ $post->retweak->attachments->count() > 1 ? 'grid-cols-2 gap-2 mb-2' : 'grid-cols-1' }} ">
+                            @foreach ($post->retweak->attachments as $attachment)
+                            <div>
+                                <img src="{{ asset('storage/' . $attachment->dir) }}" class="" />
+                            </div>
+                            @endforeach
+                        </div>
+                    </x-glass-container>
+                    @endif
                 </div>
             </div>
 
@@ -127,3 +194,108 @@
     </div>
 
 </x-profile>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.like-button');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const likeLabel = button.querySelector('.like-label');
+                const likeSvg = button.querySelector('.like-svg');
+                const likeCount = button.querySelector('.like-count');
+
+                const postId = button.dataset.postId;
+                const liked = button.dataset.liked === 'true';
+                const method = liked ? 'DELETE' : 'POST';
+                const url = liked ?
+                    button.dataset.unlikeUrl :
+                    button.dataset.likeUrl
+
+                console.log(url);
+
+                fetch(url, {
+                        method: method,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        likeLabel.textContent = liked ? 'Like' : 'Unlike';
+                        button.dataset.liked = liked ? 'false' : 'true';
+                        if (liked) {
+                            likeSvg.classList.remove('fill-red-500', 'text-red-500');
+                            likeSvg.classList.add('text-gray-800', 'dark:text-white');
+                            // likeCount.textContent = '';
+                            // likeCount.textContent = likeCount.dataset.likeCount -= 1;
+                        } else {
+                            likeSvg.classList.remove('text-gray-800', 'dark:text-white');
+                            likeSvg.classList.add('fill-red-500', 'text-red-500');
+                            // likeCount.textContent = '';
+                            // likeCount.textContent = eval(likeCount.dataset.likeCount += 1);
+                        }
+
+                        let count = parseInt(likeCount.dataset.likeCount, 10) || 0;
+                        count = liked ? count - 1 : count + 1;
+                        likeCount.dataset.likeCount = count;
+                        likeCount.textContent = count;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const bookmarkBtns = document.querySelectorAll('.bookmarkBtns');
+
+        bookmarkBtns.forEach(button => {
+            button.addEventListener('click', () => {
+                let bookmarkSvg = button.querySelector('.bookmark-svg');
+                let bookmarkCount = button.querySelector('.bookmark-count');
+                let bookmarkLabel = button.querySelector('.bookmark-label');
+
+                const postId = button.dataset.postId;
+                const bookmarked = button.dataset.bookmarked === 'true';
+                const method = bookmarked ? 'DELETE' : 'POST';
+                const url = bookmarked ?
+                    button.dataset.unbookmarkUrl :
+                    button.dataset.bookmarkUrl
+
+                fetch(url, {
+                        method: method,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        bookmarkLabel.textContent = bookmarked ? 'Bookmark' : 'Unbookmark';
+                        button.dataset.bookmarked = bookmarked ? false : true;
+
+                        if (bookmarked) {
+                            bookmarkSvg.classList.remove('fill-white');
+                        } else {
+                            bookmarkSvg.classList.add('fill-white');
+                        }
+
+                        let count = parseInt(bookmarkCount.textContent, 10) || 0;
+                        count = bookmarked ? count - 1 : count + 1;
+                        bookmarkCount.textContent = count;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    });
+</script>

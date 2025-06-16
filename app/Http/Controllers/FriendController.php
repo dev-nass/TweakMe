@@ -3,23 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\AddFriendRequest;
-use App\Models\AddFrientRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AddFriendRequestController extends Controller
+class FriendController extends Controller
 {
 
-    //
+    /**
+     * This is responsible for the 
+     * profile preview
+     */
     public function index()
     {
-
         $requests = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
-            ->where('status', '=', 'pending')
+            ->where('status', '=', 'accepted')
             ->get();
 
-        return view('friendRequests.index', [
+        return view('friends.index', [
             'requests' => $requests,
         ]);
     }
@@ -29,12 +30,12 @@ class AddFriendRequestController extends Controller
     {
 
         $request = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
-            ->where('status', '=', 'pending')
+            ->where('status', '=', 'accepted')
             ->first();
 
         $posts = $user->posts()->get();
 
-        return view('friendRequests.posts', [
+        return view('friends.posts', [
             'request' => $request,
             'user' => $user,
             'posts' => $posts,
@@ -46,30 +47,17 @@ class AddFriendRequestController extends Controller
     {
 
         $request = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
-            ->where('status', '=', 'pending')
+            ->where('status', '=', 'accepted')
             ->first();
 
         $posts = $user->retweaks()->get();
 
-        return view('friendRequests.retweaks', [
+        return view('friends.retweaks', [
             'request' => $request,
             'user' => $user,
             'posts' => $posts,
         ]);
     }
-
-
-    //
-    public function update(AddFriendRequest $addFrientRequest)
-    {
-
-        $addFrientRequest->update([
-            'status' => 'accepted'
-        ]);
-
-        return redirect()->back();
-    }
-
 
     //
     public function destroy(AddFriendRequest $addFrientRequest)
@@ -77,6 +65,6 @@ class AddFriendRequestController extends Controller
 
         $addFrientRequest->delete();
 
-        return to_route('friend-request.index');
+        return to_route('friends.index');
     }
 }

@@ -10,18 +10,19 @@
                 <a href="{{ route('user-profile.posts', [$request->pivot->sender_id]) }}">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $request->username }}</h5>
                 </a>
-                <form action="{{ route('friend-request.update', [$request->id]) }}" method="POST" class="mb-2">
+                <form action="{{ route('friend-request.update', ['addFriendRequest' => $request->pivot->id]) }}" method="POST" class="mb-2">
                     @csrf
                     @method('PUT')
                     <x-form-button>Accept</x-form-button>
                 </form>
-                <form action="{{ route('friend-request.delete', [$request->id]) }}" method="POST">
+                <form action="{{ route('friend-request.delete', ['addFriendRequest' => $request->pivot->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button class="w-full border border-gray-400 bg-gray-600 rounded-lg py-2 px-3">Delete</button>
                 </form>
             </div>
         </x-glass-container>
+
         @endforeach
     </div>
 </x-layout>

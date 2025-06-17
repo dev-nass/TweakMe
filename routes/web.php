@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\auth\SocialiteController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\EditProfileController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NotificationController;
@@ -39,9 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::controller(AddFriendRequestController::class)->group(function () {
         Route::get('/friends/requests', 'index')
             ->name('friend-request.index');
-        Route::put('/friends/requests/{addFrientRequest}', 'update')
+        Route::post('/friends/request/{user}', 'store')
+            ->name('friend-request.store');
+        Route::put('/friends/requests/{addFriendRequest}', 'update')
             ->name('friend-request.update');
-        Route::delete('/friends/requests/{addFrientRequest}', 'destroy')
+        Route::delete('/friends/requests/{addFriendRequest}', 'destroy')
             ->name('friend-request.delete');
     });
 
@@ -98,6 +101,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile/{user}/retweaks', 'retweaks')->name('profile.retweaks');
         Route::get('/profile/{user}/bookmarks', 'bookmarks')->name('profile.bookmarks');
         Route::get('/profile/{user}/likes', 'likes')->name('profile.likes');
+    });
+
+    Route::controller(EditProfileController::class)->group(function () {
+        Route::get('/profile/edit/{user}', 'edit')->name('profile-edit.edit');
+        Route::put('/profile/edit/{user}', 'update')->name('profile-edit.update');
     });
 
     Route::controller(UsersProfileController::class)->group(function () {

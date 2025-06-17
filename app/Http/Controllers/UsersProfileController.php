@@ -14,14 +14,17 @@ use Illuminate\Support\Facades\Auth;
 class UsersProfileController extends Controller
 {
 
-    //
+    /**
+     * @param $user responsible for retrieving the $user record
+     * and use it for fetching their friend requests
+    */
     public function posts(User $user)
     {
 
-        $request = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
-            ->where('sender_id', '=', $user->id)
+        $request = AddFriendRequest::where('receiver_id', '=', $user->id)
+            ->orWhere('sender_id', '=', $user->id)
             ->first();
-
+        
         $posts = $user->posts()->get();
 
         return view('usersProfile.posts', [

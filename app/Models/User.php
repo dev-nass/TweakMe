@@ -106,13 +106,13 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Retrieves the attributes of the user who sent the request,
+     * @return: Retrieves the attributes of the user who sent the request,
      * to access the record from the add friend requests table use (->pivot->sender_id)
     */
     public function friendRequestsReceived()
     {
         return $this->belongsToMany(User::class, 'add_friend_requests', 'receiver_id', 'sender_id')
-            ->withPivot('status')
+            ->withPivot(['id', 'status'])
             ->withTimestamps();
     }
 

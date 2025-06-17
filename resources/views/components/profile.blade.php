@@ -1,9 +1,9 @@
 <!-- 
-    $friendsPage : determines what route() should be use on the nav below
-    $user: will fill the page's elements with user data
-    $request: used for prodiving the page with data from add_friend_requests table
-    $ownProfile: widely used for conditions to render if the elements to be rendered are for
-        the account owner, or just visiting someone else's profile.
+    $friendsPage :  determines what route() should be use on the nav below
+    $user:          will fill the page's elements with user data
+    $request:       used for prodiving the page with data from add_friend_requests table
+    $ownProfile:    widely used for conditions to render if the elements to be rendered are for
+                        the account owner, or just visiting someone else's profile.
 -->
 @props([
     'friendsPage' => false, 
@@ -53,9 +53,9 @@
                     alt="user photo">
             </section>
 
-            <section class="flex justify-end space-x-2">
+            <section class="flex justify-end space-x-2 {{  ($request && $request->receiver_id) === Auth::user()->id ? 'invisible' : '' }}">
                 @if ($request && $request->status === 'pending')
-                <form action="{{ route('friend-request.update', [$request->id]) }}" method="POST" class="mb-2">
+                <form action="{{ route('friend-request.update', [$request->id]) }}" method="POST" class="mb-2 {{ $request->sender_id === Auth::user()->id ? 'hidden' : '' }}">
                     @csrf
                     @method('PUT')
                     <x-form-button>Accept</x-form-button>
@@ -72,9 +72,8 @@
                     <button class="w-full border border-red-500 outline-red-500 text-red-500 rounded-lg py-2 px-3 transition duration-300 hover:bg-red-500 hover:text-white">Unfriend</button>
                 </form>
                 @else
-                <form action="" method="POST">
+                <form action="{{ route('friend-request.store', [$user->id]) }}" method="POST">
                     @csrf
-                    @method('DELETE')
                     <button class="w-full border border-blue-500 outline-blue-500 text-blue-500 rounded-lg py-2 px-3 transition duration-300 hover:bg-blue-500 hover:text-white">Add</button>
                 </form>
                 @endif

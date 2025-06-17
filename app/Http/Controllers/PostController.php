@@ -48,7 +48,7 @@ class PostController extends Controller
         // allows multiple file upload now
         if ($request->hasFile('attachments')) {
             foreach ($request->attachments as $attachment) {
-                $path = $attachment->store('images', 'public');
+                $path = $attachment->store('images/posts', 'public');
                 // $dir = Storage::disk('public')->store('images', 'public');
 
                 Attachment::create([

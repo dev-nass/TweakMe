@@ -7,8 +7,8 @@
         <x-glass-container>
             <img class="rounded-lg w-full" src="https://picsum.photos/id/{{ random_int(1, 100) }}/200/200" alt="" />
             <div class="p-2">
-                <a href="{{ route('friend-request.posts', [$request->sender_id]) }}">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $request->sender->first_name . ' ' . $request->sender->last_name }}</h5>
+                <a href="{{ route('user-profile.posts', [$request->pivot->sender_id]) }}">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $request->username }}</h5>
                 </a>
                 <form action="{{ route('friend-request.update', [$request->id]) }}" method="POST" class="mb-2">
                     @csrf

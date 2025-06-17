@@ -27,39 +27,6 @@ class FriendController extends Controller
     }
 
 
-    public function posts(User $user)
-    {
-
-        $request = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
-            ->where('status', '=', 'accepted')
-            ->first();
-
-        $posts = $user->posts()->get();
-
-        return view('friends.posts', [
-            'request' => $request,
-            'user' => $user,
-            'posts' => $posts,
-        ]);
-    }
-
-
-    public function retweaks(User $user)
-    {
-
-        $request = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
-            ->where('status', '=', 'accepted')
-            ->first();
-
-        $posts = $user->retweaks()->get();
-
-        return view('friends.retweaks', [
-            'request' => $request,
-            'user' => $user,
-            'posts' => $posts,
-        ]);
-    }
-
     //
     public function destroy(AddFriendRequest $addFrientRequest)
     {

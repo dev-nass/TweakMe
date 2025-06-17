@@ -15,7 +15,7 @@ class AddFriendRequestController extends Controller
     public function index()
     {
 
-        $requests = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
+        $requests = Auth::user()->friendRequestsReceived()
             ->where('status', '=', 'pending')
             ->get();
 
@@ -25,49 +25,16 @@ class AddFriendRequestController extends Controller
     }
 
 
-    public function posts(User $user)
-    {
-
-        $request = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
-            ->where('status', '=', 'pending')
-            ->first();
-
-        $posts = $user->posts()->get();
-
-        return view('friendRequests.posts', [
-            'request' => $request,
-            'user' => $user,
-            'posts' => $posts,
-        ]);
-    }
-
-
-    public function retweaks(User $user)
-    {
-
-        $request = AddFriendRequest::where('receiver_id', '=', Auth::user()->id)
-            ->where('status', '=', 'pending')
-            ->first();
-
-        $posts = $user->retweaks()->get();
-
-        return view('friendRequests.retweaks', [
-            'request' => $request,
-            'user' => $user,
-            'posts' => $posts,
-        ]);
-    }
-
 
     //
     public function update(AddFriendRequest $addFrientRequest)
     {
 
-        $addFrientRequest->update([
+        $request = $addFrientRequest->update([
             'status' => 'accepted'
         ]);
 
-        return redirect()->back();
+        return to_route('user-profile.posts', [$addFrientRequest->sender_id])->with('request', 'accepted');
     }
 
 

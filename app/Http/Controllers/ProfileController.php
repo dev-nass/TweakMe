@@ -7,6 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controller is used for Auth user profile
+*/
 class ProfileController extends Controller
 {
 
@@ -16,13 +19,13 @@ class ProfileController extends Controller
     */
     public function posts(User $user)
     {
-
+        
         $posts = $user->posts()->get();
 
 
         return view('profiles.posts', [
             'posts' => $posts,
-        ]);
+        ])->with('ownProfile', true);
     }
 
 

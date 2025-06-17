@@ -43,12 +43,12 @@ migrations/notification > models/Notifcation > (polymorphic rs) > models/Retweak
 -   ADD A WAY FOR POSTS AND RETWEAK TO BE PUBLIC AND FRIENDS (DOUBLE CECK THIS)
 -   WHAT IF WE CREATE A POST CONTAINER COMPONENT THAT WILL CONTAIN ALL CODE FOR DISPLAYING A SINGLE POST
 -   ADD AN ICON FOR VISUALIZING THE POSTS SELECTED AUDIENCE
-
 -   ISSUE: THE `ADD FRIEND REQUEST` table is allowing once end relationship, meaning the receiver of the requestis only one having a new friend if they accepted that, the sender won't be having a new friend record even if the request is accepted by the receiver.
-    -   
+    -   MERGED TWO METHOD THAT FETCHES ONE DIRECTIONAL FRIEND DIRECTION
 
 -   USER SEARCH FEATURE 
 -   ALLOW THEM TO ADD USERS THERE
+-   DOUBLE CHECK IF THE ADD, UNFRIEND, ACCEPT, DELETE are all working just fine
 
 -   ALLOW USERS TO UPLOAD THEIR PROFILE
 -   ALLOW VIEO ATTACHMENTS AND ALSO MAKE THE ATTACHMENT TYPE DETECTION TO BE DYNAMIC WITHIN THE POSTCONTROLLER

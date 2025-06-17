@@ -96,18 +96,39 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Notification::class);
     }
 
-    public function friendRequests()
+    
+    // Requests the user has sent
+    public function friendRequestsSent()
     {
-        return $this->hasMany(AddFriendRequest::class, 'receiver_id')
-            ->where('status', '=', 'pending');
+        return $this->belongsToMany(User::class, 'add_friend_requests', 'sender_id', 'receiver_id')
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
     /**
-     * Retrieves all friends of the user
-     */
+     * Retrieves the attributes of the user who sent the request,
+     * to access the record from the add friend requests table use (->pivot->sender_id)
+    */
+    public function friendRequestsReceived()
+    {
+        return $this->belongsToMany(User::class, 'add_friend_requests', 'receiver_id', 'sender_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
+    /**
+     * Friends: both sent and received requests that are accepted
+     * We are merging the collection from friendRequestsSent,
+     * and freidnRequestReceived
+    */
     public function friends()
     {
-        return $this->hasMany(AddFriendRequest::class, 'receiver_id')
-            ->where('status', '=', 'accepted');
+        $sent = $this->belongsToMany(User::class, 'add_friend_requests', 'sender_id', 'receiver_id')
+            ->wherePivot('status', 'accepted');
+
+        $received = $this->belongsToMany(User::class, 'add_friend_requests', 'receiver_id', 'sender_id')
+            ->wherePivot('status', 'accepted');
+
+        return $sent->get()->merge($received->get());
     }
 }

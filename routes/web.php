@@ -13,6 +13,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RetweakController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UsersProfileController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -37,14 +39,15 @@ Route::middleware('auth')->group(function () {
     Route::controller(AddFriendRequestController::class)->group(function () {
         Route::get('/friends/requests', 'index')
             ->name('friend-request.index');
-        Route::get('/friends/requests/profile/{user}', 'posts')
-            ->name('friend-request.posts');
-        Route::get('/friends/requests/profile/{user}/retweaks', 'retweaks')
-            ->name('friend-request.retweaks');
         Route::put('/friends/requests/{addFrientRequest}', 'update')
             ->name('friend-request.update');
         Route::delete('/friends/requests/{addFrientRequest}', 'destroy')
             ->name('friend-request.delete');
+    });
+
+    Route::controller(SearchController::class)->group(function () {
+        Route::get('/search', 'index')->name('search.index');
+        Route::get('/search/user', 'search')->name('search.user');
     });
 
     Route::controller(PostController::class)->group(function () {
@@ -95,6 +98,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile/{user}/retweaks', 'retweaks')->name('profile.retweaks');
         Route::get('/profile/{user}/bookmarks', 'bookmarks')->name('profile.bookmarks');
         Route::get('/profile/{user}/likes', 'likes')->name('profile.likes');
+    });
+
+    Route::controller(UsersProfileController::class)->group(function () {
+        Route::get('/user/{user}/profile', 'posts')->name('user-profile.posts');
+        Route::get('/user/{user}/profile/retweaks', 'retweaks')->name('user-profile.retweaks');
     });
 
     Route::controller(FriendController::class)->group(function () {

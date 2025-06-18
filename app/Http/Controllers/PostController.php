@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Attachment;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\File;
 
 class PostController extends Controller
 {
@@ -24,59 +26,26 @@ class PostController extends Controller
 
 
     /**
-     * Listen to the form submit to
+     * DListen to the form submit to
      * store a new post
      */
-    public function store(Request $request)
+    public function store(Request $request, PostService $postService)
     {
 
-        $request->validate([
+        $validatedAttr = $request->validate([
             'audience' => ['required', 'string'],
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string', 'max:255'],
             'tags' => ['required', 'string'],
         ]);
 
-    
-        $post = Post::create([
-            'user_id' => Auth::user()->id,
-            'title' => $request->title,
-            'content' => $request->content,
-            'audience' => $request->audience
+
+        $validatedAttachments = $request->validate([
+            'attachments.*' => ['file', File::types(['png', 'jpg', 'webp', 'mp4'])],
         ]);
 
-        // allows multiple file upload now
-        if ($request->hasFile('attachments')) {
-            foreach ($request->attachments as $attachment) {
-                $path = $attachment->store('images/posts', 'public');
-                // $dir = Storage::disk('public')->store('images', 'public');
 
-                Attachment::create([
-                    'post_id' => $post->id,
-                    'dir' => $path,
-                    'type' => 'image' // should be changed later
-                ]);
-            }
-        }
-
-        $tagIds = [];
-        $tags = explode(',', $request->tags);
-        foreach ($tags as $tag) {
-            $tag = trim($tag);
-
-            // skips empty tag
-            if (! $tag) {
-                continue;
-            }
-
-            $newTag = Tag::firstOrCreate([
-                'name' => $tag
-            ]);
-
-            $tagIds[] = $newTag->id;
-        }
-
-        $post->tags()->attach($tagIds);
+        $postService->createPost($validatedAttr, $validatedAttachments);
 
         return to_route('index');
     }
@@ -85,7 +54,7 @@ class PostController extends Controller
     /**
      * Used for showing a specific 
      * Post and later on its comments too
-    */
+     */
     public function show(Post $post)
     {
 
@@ -172,12 +141,12 @@ class PostController extends Controller
 
     /**
      * Delete a specific Post
-    */
+     */
     public function destroy(Post $post)
     {
 
         // delete each atachment of the post
-        foreach($post->attachments as $attachment) {
+        foreach ($post->attachments as $attachment) {
             Storage::disk('public')->delete($attachment->dir);
         }
 

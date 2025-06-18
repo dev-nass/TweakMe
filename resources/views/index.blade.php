@@ -1,11 +1,11 @@
 <x-layout>
     <x-glass-container>
         <div class="flex align-center space-x-3 mb-7">
-            <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+            <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->profile ? asset('storage/' . Auth::user()->profile) : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg' }}"
                 alt="user photo">
             <a href="{{ route('posts.create') }}"
                 class="flex justify-between grow-1 p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-5 border border-gray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
-                <span class="">What's on your mind today, Jonas?</span>
+                <span class="">What's on your mind today, {{ Auth::user()->username }}?</span>
                 <svg class="w-6 h-6 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                     height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

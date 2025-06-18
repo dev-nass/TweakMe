@@ -1,4 +1,4 @@
-<x-profile>
+<x-profile :ownProfile="$ownProfile">
 
     <div class="pt-6 grid grid-cols-1 gap-y-4">
         @if ($likes->isNotEmpty())

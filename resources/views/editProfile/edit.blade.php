@@ -1,9 +1,13 @@
 <x-layout rightPanel="false">
 
     <x-glass-container>
-        <form action="{{ route('profile-edit.update', [Auth::user()->id]) }}" method="POST">
+        <form action="{{ route('profile-edit.update', [Auth::user()->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            <x-form-field>
+                <x-form-label for="profile">Profile Picture</x-form-label>
+                <x-form-input id="profile" name="profile" type="file" />
+            </x-form-field>
             <div class="grid grid-cols-2 gap-x-2">
                 <x-form-field>
                     <x-form-label for="first_name">First Name</x-form-label>
@@ -38,7 +42,7 @@
             </div>
             <div class="mb-3">
                 <x-form-label for="description">Description</x-form-label>
-                <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tell them about you..."></textarea>
+                <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tell them about you...">{{ Auth::user()->description }}</textarea>
                 <x-form-error name="description" />
             </div>
             <x-form-button>Update</x-form-button>

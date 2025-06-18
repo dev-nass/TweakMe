@@ -1,5 +1,11 @@
 # Tweak Me
 
+# Learned & Features
+-   AJAX post liking and bookmarks
+-   Google login
+-   Polymorphic Relationships
+-   Self referencing many-to-many relationship
+
 # Liking Feature
 
 -   Made use of AJAX and JS promises, <br>
@@ -51,6 +57,7 @@ migrations/notification > models/Notifcation > (polymorphic rs) > models/Retweak
 -   ALLOW THEM TO ADD USERS THERE
 -   DOUBLE CHECK IF THE ADD, UNFRIEND, ACCEPT, DELETE are all working just fine
 
+-   LEARN HOW TO SEND ALL INPUTS OF A FORM TO A PROMISE `HEADER{ ... }`
 -   CREATE A FRONT END FOR EDIT PROFILE
 -   ALLOW USERS TO UPLOAD THEIR PROFILE
 -   ALLOW VIEO ATTACHMENTS AND ALSO MAKE THE ATTACHMENT TYPE DETECTION TO BE DYNAMIC WITHIN THE POSTCONTROLLER
@@ -59,7 +66,7 @@ migrations/notification > models/Notifcation > (polymorphic rs) > models/Retweak
     ...
 -   TAKE NOTE OF THE APPRROACH ABOUT MERGING COLLECTION FOR DETECTING TWO WAY FRIENDS.
 -   AFTER THE PROJECT HAS BEEN FULLY SET-UP, LEARN HOW TO TDD
--   LEARN HOW TO SEND ALL INPUTS OF A FORM TO A PROMISE `HEADER{ ... }`
+
 
 # Refactors
 

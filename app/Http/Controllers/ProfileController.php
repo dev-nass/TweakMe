@@ -39,7 +39,7 @@ class ProfileController extends Controller
 
         return view('profiles.retweaks', [
             'posts' => $posts,
-        ]);
+        ])->with('ownProfile', true);
     }
 
 
@@ -53,7 +53,7 @@ class ProfileController extends Controller
 
         return view('profiles.bookmarks',[
             'bookmarks' => $bookmarks,
-        ]);
+        ])->with('ownProfile', true);
     }
 
 
@@ -67,7 +67,7 @@ class ProfileController extends Controller
 
         return view('profiles.likes',[
             'likes' => $likes,
-        ]);
+        ])->with('ownProfile', true);
     }
 
 }

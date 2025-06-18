@@ -31,7 +31,7 @@
             </x-form-field>
             <x-glass-container class="mb-3">
                 <div class="flex align-center space-x-3 mb-4">
-                    <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                    <img class="w-10 h-10 rounded-full" src="{{ $post->user->profile ? asset('storage/' . $post->user->profile) : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg' }}"
                         alt="user photo">
                     <div>
                         <a href="#">{{ $post->user->username }}</a>
@@ -44,9 +44,16 @@
                 </div>
                 <div class="grid {{ $post->attachments->count() > 1 ? 'grid-cols-2 gap-2 mb-2' : 'grid-cols-1' }} ">
                     @foreach ($post->attachments as $attachment)
+                    @if($attachment->type === 'video')
+                    <video class="w-full h-full" controls>
+                        <source src="{{ asset('storage/' . $attachment->dir) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    @elseif($attachment->type === 'image')
                     <div>
                         <img src="{{ asset('storage/' . $attachment->dir) }}" class="" />
                     </div>
+                    @endif
                     @endforeach
                 </div>
             </x-glass-container>

@@ -30,6 +30,7 @@
             <x-form-field>
                 <x-form-label for="attachment">Attachment</x-form-label>
                 <x-form-input id="attachment" name="attachments[]" multiple type="file" />
+                <x-form-error name="attachment" />
             </x-form-field>
             <x-form-button>Post</x-form-button>
         </form>

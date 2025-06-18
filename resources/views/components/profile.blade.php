@@ -6,24 +6,25 @@
                         the account owner, or just visiting someone else's profile.
 -->
 @props([
-    'friendsPage' => false, 
-    'user' => null,  
-    'request' => false, 
-    'ownProfile' => false
+'friendsPage' => false,
+'user' => null,
+'request' => false,
+'ownProfile' => false
 ])
 
-<x-layout rightPanel="hidden">
 
+<x-layout rightPanel="hidden">
+    
     <div class="grid grid-cols-1 gap-y-1">
         @if ($ownProfile)
         <section class="w-full relative mb-3 h-[200px] bg-[url('https://picsum.photos/800')] bg-cover bg-center bg-no-repeat rounded-xl shadow-md">
 
-            <img class="bg-slate-800 absolute bottom-[-50px] left-5 p-1 w-30 h-30 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+            <img class="bg-slate-800 absolute bottom-[-50px] left-5 p-1 w-30 h-30 rounded-full" src="{{ Auth::user()->profile ? asset('storage/' . Auth::user()->profile) : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg' }}"
                 alt="user photo">
         </section>
 
         <section class="flex justify-end">
-            <a href="#" class="border border-indigo-500 py-2 px-4 rounded-full text-indigo-400 font-semibold">Edit Profile</a>
+            <a href="{{ route('profile-edit.edit', [Auth::user()->id]) }}" class="border border-indigo-500 py-2 px-4 rounded-full text-indigo-400 font-semibold">Edit Profile</a>
         </section>
 
         <section>

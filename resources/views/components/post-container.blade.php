@@ -3,7 +3,7 @@
 <x-glass-container>
     <!-- post header -->
     <div class="flex align-center space-x-3 mb-4">
-        <img class="w-12 h-12 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+        <img class="w-12 h-12 rounded-full" src="{{ $post->user->profile ? asset('storage/' . $post->user->profile) : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg' }}"
             alt="user photo">
         <div>
             <a href="#">{{ $post->user->username }}</a>
@@ -70,9 +70,16 @@
                 <!-- Item 1 -->
                 @foreach($post->attachments as $attachment)
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="{{ asset('storage/' . $attachment->dir) }}"
-                        class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt="">
+                    @if($attachment->type === 'video')
+                    <video class="h-full w-full" controls>
+                        <source src="{{ asset('storage/' . $attachment->dir) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    @elseif($attachment->type === 'image')
+                    <div>
+                        <img src="{{ asset('storage/' . $attachment->dir) }}" class="" />
+                    </div>
+                    @endif
                 </div>
                 @endforeach
             </div>
@@ -111,7 +118,7 @@
         @if ($post->is_retweak == true)
         <x-glass-container class="mb-3 mt-3">
             <div class="flex align-center space-x-3 mb-4">
-                <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                <img class="w-10 h-10 rounded-full" src="{{ $post->retweak->user->profile ? asset('storage/' . $post->retweak->user->profile) : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg' }}"
                     alt="user photo">
                 <div>
                     <a href="#">{{ $post->retweak->user->username }}</a>
@@ -124,9 +131,16 @@
             </div>
             <div class="grid {{ $post->retweak->attachments->count() > 1 ? 'grid-cols-2 gap-2 mb-2' : 'grid-cols-1' }} ">
                 @foreach ($post->retweak->attachments as $attachment)
+                @if($attachment->type === 'video')
+                <video class="w-full h-full" controls>
+                    <source src="{{ asset('storage/' . $attachment->dir) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                @elseif($attachment->type === 'image')
                 <div>
                     <img src="{{ asset('storage/' . $attachment->dir) }}" class="" />
                 </div>
+                @endif
                 @endforeach
             </div>
         </x-glass-container>

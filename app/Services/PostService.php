@@ -68,6 +68,7 @@ class PostService
 
 
     /**
+     * Description: Handles tag for creation and post update tag records
      * @param Post $post is for the actual post record where the tag is being associated with
      * @pram string $tags will contain the string of tags that the user typed (comma separated)
      * @return void
@@ -92,6 +93,26 @@ class PostService
             $tagIds[] = $newTag->id;
         }
 
-        $post->tags()->attach($tagIds);
+        // Works for both create and update
+        $post->tags()->sync($tagIds);
+    }
+
+
+
+    /**
+     * 
+    */
+    public function updatePost(array $validated, $post)
+    {
+
+        $post->update([
+            'user_id' => Auth::user()->id,
+            'title' => $validated['title'],
+            'content' => $validated['content'],
+        ]);
+
+        $this->handleTags($post, $validated['tags']);
+
+        return $post;
     }
 }

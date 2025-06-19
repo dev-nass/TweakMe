@@ -26,8 +26,10 @@ class PostController extends Controller
 
 
     /**
-     * DListen to the form submit to
-     * store a new post
+     * Description: Listen to the form submit to store a new post
+     * @param $request expect the inputs from the view
+     * @param $postService class for post creation logic
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request, PostService $postService)
     {
@@ -39,7 +41,7 @@ class PostController extends Controller
             'tags' => ['required', 'string'],
         ]);
 
-
+        // .* - checks the attachments arrays
         $validatedAttachments = $request->validate([
             'attachments.*' => ['file', File::types(['png', 'jpg', 'webp', 'mp4'])],
         ]);
@@ -52,8 +54,7 @@ class PostController extends Controller
 
 
     /**
-     * Used for showing a specific 
-     * Post and later on its comments too
+     * Description: Used for showing a specific Post and later on its comments too
      */
     public function show(Post $post)
     {
@@ -94,53 +95,29 @@ class PostController extends Controller
 
 
     /**
-     * Listens to a form submission
-     * to Update a post and tag if neccessary
+     * Description: Listens to a form submission to Update a post and tag if neccessary
+     * @param $request expects the input from the view
+     * @param $post contain the post record instance
+     * @param $postService class for post update logic
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post, PostService $postService)
     {
 
-        $request->validate([
+        $validatedAttr = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string', 'max:255'],
             'tags' => ['required', 'string'],
         ]);
 
-        $post->update([
-            'user_id' => Auth::user()->id,
-            'title' => $request->title,
-            'description' => $request->description,
-        ]);
-
-        // could be useful if we don't use sync, but sync already handles
-        // attach and detach
-        // $post->tags()->detach();
-
-        $tagIds = [];
-        $tags = explode(',', $request->tags);
-        foreach ($tags as $tag) {
-            $tag = trim($tag);
-
-            // skips empty tag
-            if (! $tag) {
-                continue;
-            }
-
-            $newTag = Tag::firstOrCreate([
-                'name' => $tag
-            ]);
-
-            $tagIds[] = $newTag->id;
-        }
-
-        $post->tags()->sync($tagIds);
+       
+        $postService->updatePost($validatedAttr, $post);
 
         return to_route('index');
     }
 
 
     /**
-     * Delete a specific Post
+     * Description: Delete a specific Post
      */
     public function destroy(Post $post)
     {

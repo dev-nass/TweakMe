@@ -7,7 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tweak Me</title>
-    @vite(['resources/css/app.css', 'resources/js.app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- both are added for active and offline js feature -->
+    <meta name="csrf-token" content="{{ csrf_token() }}"> 
+    <meta name="base-url" content="{{ url('/') }}">
+    <meta name="user-id" content="{{ auth()->id() }}">
 </head>
 
 <body class="bg-dark">

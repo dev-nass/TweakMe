@@ -17,7 +17,10 @@ use App\Http\Controllers\RetweakController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UsersProfileController;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
@@ -137,4 +140,25 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(SocialiteController::class)->group(function () {
     Route::get('auth/google', 'googleLogin')->name('auth.google');
     Route::get('auth/google-callback', 'googleAuthentication')->name('auth.google-callback');
+});
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::post('/user/ping', function () {
+        Auth::user()->update([
+            'last_seen' => now(),
+            'status' => 1,
+        ]);
+        return response()->noContent();
+    });
+
+    Route::post('/user/close-tab', function (Request $request) {
+
+        $user = User::find($request->user_id);
+
+        $user->update(['status' => 0]);
+
+        return response()->noContent();
+    });
 });

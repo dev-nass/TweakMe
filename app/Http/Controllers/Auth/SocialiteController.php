@@ -45,11 +45,14 @@ class SocialiteController extends Controller
 
             $user ? Auth::login($user) : Auth::login($userData);
 
+            Auth::user()->update([
+                'status' => 1,
+                'last_seen' => now(),
+            ]);
+
             return to_route('index');
         } catch (Throwable $e) {
             dd($e);
         }
     }
-
-    
 }

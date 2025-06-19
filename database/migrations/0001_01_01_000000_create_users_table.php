@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('description')->nullable();
             $table->string('profile')->nullable();
+            $table->boolean('status')->default(0);
+            $table->timestamp('last_seen')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

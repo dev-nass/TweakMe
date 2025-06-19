@@ -19,7 +19,7 @@ class LoginController extends Controller
     /**
      * Listenes to forms submit on
      * Login Form
-    */
+     */
     public function store(Request $request)
     {
 
@@ -31,7 +31,7 @@ class LoginController extends Controller
         // will contain either 'email' or 'username'
         $loginCreds = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if(! Auth::attempt([$loginCreds => $request->login, 'password' => $request->password])) {
+        if (! Auth::attempt([$loginCreds => $request->login, 'password' => $request->password])) {
             throw ValidationException::withMessages([
                 'login' => 'Sorry, those credentials does not match',
             ]);
@@ -39,14 +39,24 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
+        Auth::user()->update([
+                'status' => 1,
+                'last_seen' => now(),
+            ]);
+
         return to_route('index');
     }
 
     /**
      * Sign out the user
-    */
+     */
     public function destroy()
     {
+
+        Auth::user()->update([
+            'status' => 0,
+        ]);
+
         Auth::logout();
 
         return to_route('index');

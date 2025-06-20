@@ -153,7 +153,7 @@ Route::middleware('auth')->group(function () {
         return response()->noContent();
     });
 
-    Route::post('/user/close-tab', function (Request $request) {
+    Route::post('/user/inactive', function (Request $request) {
 
         $user = User::find($request->user_id);
 

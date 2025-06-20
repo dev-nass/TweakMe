@@ -5,6 +5,7 @@
 -   Google login
 -   Polymorphic Relationships
 -   Self referencing many-to-many relationship
+-   Activity Status 0 (Offline) & 1 (Online) 
 
 # Liking Feature
 
@@ -39,6 +40,16 @@ migrations/notification > models/Notifcation > (polymorphic rs) > models/Retweak
 
 ```
 .env > services.php > web.php > login.blade.php > SocialiteController.php
+```
+
+# Activity Status 0 (Offline) & 1 (Online)
+-   Learned the difference between `setInterval` and `setTimeout`:
+    - `setTimeout` only run one time,
+    - `setInterval` runs multiple times on depending on the given time interval
+- So everytime the user log-ins their status is changed to `true`, but in the JS file we are constantly running a `setTimeout` that triggers a function to set the user to online,
+- That `setTimeout` is being reset everytime JS detect an event winthin the `window`, and `setTimeout` runs again its timer on the background
+```
+LoginController.php  app.js > web.php
 ```
 
 ### Tasks

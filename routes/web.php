@@ -27,11 +27,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
 
     Route::get('/',  function () {
+
+        $posts = Post::with(['user.friendRequestsSent', 'user.friendRequestsReceived', 'user', 'retweaks', 'comments', 'likes', 'bookmarks', 'tags', 'attachments'])
+            ->inRandomOrder()
+            ->whereIn('audience', ['public', 'friends'])
+            ->simplePaginate(10);
+
         return view('index', [
-            'posts' => Post::with(['user', 'retweaks'])
-                ->inRandomOrder()
-                ->whereIn('audience', ['public', 'friends'])
-                ->get(),
+            'posts' => $posts
         ]);
     })->name('index');
 

@@ -146,6 +146,19 @@
         </x-glass-container>
 
         @endif
+
+        @if($post->tags->isNotEmpty())
+        <div class="mb-3 pt-2">
+            <p>Tags:</p>
+            <div class="flex space-x-2 col pt-2">
+                @foreach ($post->tags as $tag)
+                <div class="border border-blue-500 text-blue-500 px-3 py-2 rounded-xl">{{ $tag->name }}</div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+
     </div>
 
     <x-br />

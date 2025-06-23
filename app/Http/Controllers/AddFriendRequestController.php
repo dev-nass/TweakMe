@@ -16,7 +16,7 @@ class AddFriendRequestController extends Controller
     {
 
         $requests = Auth::user()->friendRequestsReceived()
-            ->where('status', '=', 'pending')
+            ->wherePivot('status', '=', 'pending')
             ->get();
         
 

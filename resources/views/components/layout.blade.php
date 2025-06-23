@@ -141,7 +141,7 @@
         </div>
 
         @if($rightPanel === 'show')
-        <div class="p-4 border-2 col-span-1 text-white border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+        <div id="rightPanel" class="p-4 border-2 col-span-1 text-white border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14" data-friends="{{ Auth::user()->friends() }}">
             <h1>Side panel for future use</h1>
         </div>
         @endif

@@ -60,6 +60,8 @@
             <x-post-container :post="$post" />
         @endif
         @endforeach
+
+        {{ $posts->links() }}
     </section>
 </x-layout>
 

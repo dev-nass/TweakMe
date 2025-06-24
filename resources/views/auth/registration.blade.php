@@ -11,7 +11,7 @@
 <body class="bg-dark">
     <section class="h-full flex justify-center items-center">
         <x-glass-container class="w-1/3">
-            <form action="{{ route('registration') }}" method="POST">
+            <form action="{{ route('registration-store') }}" method="POST">
                 @csrf
                 <x-form-field>
                     <x-form-label for="username">Username</x-form-label>

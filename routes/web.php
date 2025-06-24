@@ -9,6 +9,7 @@ use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EditProfileController;
 use App\Http\Controllers\FriendController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
@@ -26,17 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/',  function () {
-
-        $posts = Post::with(['user.friendRequestsSent', 'user.friendRequestsReceived', 'user', 'retweaks', 'comments', 'likes', 'bookmarks', 'tags', 'attachments'])
-            ->inRandomOrder()
-            ->whereIn('audience', ['public', 'friends'])
-            ->simplePaginate(10);
-
-        return view('index', [
-            'posts' => $posts
-        ]);
-    })->name('index');
+    Route::get('/',  HomeController::class)->name('index');
 
     Route::controller(NotificationController::class)->group(function () {
         Route::get('/notifications', 'index')->name('notifications');
@@ -131,12 +122,12 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(RegistrationController::class)->group(function () {
     Route::get('/registration', 'create')->name('registration');
-    Route::post('/registration', 'store')->name('registration');
+    Route::post('/registration', 'store')->name('registration-store');
 });
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'create')->name('login');
-    Route::post('/login', 'store')->name('login');
+    Route::post('/login', 'store')->name('login-store');
     Route::delete('/logout', 'destroy')->name('logout');
 });
 

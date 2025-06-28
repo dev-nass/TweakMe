@@ -1,4 +1,7 @@
 # Tweak Me
+June 29, 2025:
+-   This version of Tweak Me is primarily focused on learning testing.
+-   Due to changes I made on XAMPP and Laragon, I can't access the phpmyadmin on the former, hence I moved to project here.
 
 # Learned & Features
 -   AJAX post liking and bookmarks

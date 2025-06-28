@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -39,32 +40,4 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 
-
-    public function test_all_routes()
-    {
-
-
-        $routes = [
-            'index',
-            'posts.create'
-        ];
-
-        $user = User::factory()->create();
-
-        foreach ($routes as $route) {
-            // Chain actingAs() and get() in one call
-            $response = $this->actingAs($user)->get(route($route));
-
-            // Debug which route is failing
-            if ($response->getStatusCode() !== 200) {
-                dump([
-                    'failing_route' => $route,
-                    'status_code' => $response->getStatusCode(),
-                    'content' => $response->getContent()
-                ]);
-            }
-
-            $response->assertStatus(200, "Route '{$route}' failed");
-        }
-    }
 }

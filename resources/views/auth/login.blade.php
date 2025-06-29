@@ -15,12 +15,13 @@
                 @csrf
                 <x-form-field>
                     <x-form-label for="login">Username or Email</x-form-label>
-                    <x-form-input id="login" name="login" type="text" />
+                    <x-form-input id="login" name="login" type="text" :value="old('login')" />
                     <x-form-error name="login" />
                 </x-form-field>
                 <x-form-field>
                     <x-form-label for="password">Password</x-form-label>
                     <x-form-input id="password" name="password" type="password" />
+                    <x-form-error name="password"></x-form-error>
                 </x-form-field>
                 <x-form-field class="text-center text-white">
                     <p>Dont have an account yet? <a href="{{ route('registration') }}" class="text-blue-500 font-semibold">Sign Up</a></p>

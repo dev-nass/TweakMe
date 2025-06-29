@@ -116,25 +116,28 @@ Route::middleware('auth')->group(function () {
         Route::get('/friends/{user}/retweak', 'retweaks')->name('friends.retweaks');
         Route::delete('/friends/{addFrientRequest}', 'destroy')->name('friends.delete');
     });
+
+    Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
+});
+
+Route::middleware('guest')->group(function () {
+    Route::controller(RegistrationController::class)->group(function () {
+        Route::get('/registration', 'create')->name('registration');
+        Route::post('/registration', 'store')->name('registration-store');
+    });
+
+    Route::controller(LoginController::class)->group(function () {
+        Route::get('/login', 'create')->name('login');
+        Route::post('/login', 'store')->name('login-store');
+    });
+
+    Route::controller(SocialiteController::class)->group(function () {
+        Route::get('auth/google', 'googleLogin')->name('auth.google');
+        Route::get('auth/google-callback', 'googleAuthentication')->name('auth.google-callback');
+    });
 });
 
 
-
-Route::controller(RegistrationController::class)->group(function () {
-    Route::get('/registration', 'create')->name('registration');
-    Route::post('/registration', 'store')->name('registration-store');
-});
-
-Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'create')->name('login');
-    Route::post('/login', 'store')->name('login-store');
-    Route::delete('/logout', 'destroy')->name('logout');
-});
-
-Route::controller(SocialiteController::class)->group(function () {
-    Route::get('auth/google', 'googleLogin')->name('auth.google');
-    Route::get('auth/google-callback', 'googleAuthentication')->name('auth.google-callback');
-});
 
 
 

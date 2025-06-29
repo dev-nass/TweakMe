@@ -17,7 +17,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Listenes to forms submit on
+     * Listens to forms submit on
      * Login Form
      */
     public function store(Request $request)
@@ -40,9 +40,9 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         Auth::user()->update([
-                'status' => 1,
-                'last_seen' => now(),
-            ]);
+            'status' => 1,
+            'last_seen' => now(),
+        ]);
 
         return to_route('index');
     }
@@ -54,11 +54,11 @@ class LoginController extends Controller
     {
 
         Auth::user()->update([
-            'status' => 0,
+            'status' => 0
         ]);
 
         Auth::logout();
 
-        return to_route('index');
+        return to_route('login');
     }
 }

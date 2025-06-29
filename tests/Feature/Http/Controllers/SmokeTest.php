@@ -28,13 +28,13 @@ class SmokeTest extends TestCase
             $response = $this->actingAs($user)->get(route($route));
 
             // Debug which route is failing
-            if ($response->getStatusCode() !== 200) {
-                dump([
-                    'failing_route' => $route,
-                    'status_code' => $response->getStatusCode(),
-                    'content' => $response->getContent()
-                ]);
-            }
+            // if ($response->getStatusCode() !== 200) {
+            //     dump([
+            //         'failing_route' => $route,
+            //         'status_code' => $response->getStatusCode(),
+            //         'content' => $response->getContent()
+            //     ]);
+            // }
 
             $response->assertStatus(200, "Route '{$route}' failed");
         }
@@ -55,14 +55,14 @@ class SmokeTest extends TestCase
         foreach ($routes as [$route, $param]) {
             $response = $this->actingAs($user)->get(route($route, $param));
 
-            if ($response->getStatusCode() !== 200) {
-                dump([
-                    'failing_route' => $route,
-                    'params' => $param,
-                    'status_code' => $response->getStatusCode(),
-                    'content' => $response->getContent()
-                ]);
-            }
+            // if ($response->getStatusCode() !== 200) {
+            //     dump([
+            //         'failing_route' => $route,
+            //         'params' => $param,
+            //         'status_code' => $response->getStatusCode(),
+            //         'content' => $response->getContent()
+            //     ]);
+            // }
 
             $response->assertStatus(200, "Route '{$route}' failed");
         }

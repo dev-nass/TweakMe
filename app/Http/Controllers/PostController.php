@@ -104,7 +104,7 @@ class PostController extends Controller
     {
 
         $validatedAttr = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string','min:10' ,'max:255'],
             'content' => ['required', 'string', 'max:255'],
             'tags' => ['required', 'string'],
         ]);

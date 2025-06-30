@@ -39,7 +39,7 @@
             <a href="#" class="flex space-x-2">
                 <span class="text-green-500 font-bold text-xl">#</span>
                 <span>
-                    Hastag
+                    Hashtag
                 </span>
             </a>
             <a href="#" class="flex space-x-2">

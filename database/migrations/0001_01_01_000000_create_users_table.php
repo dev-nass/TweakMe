@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('profile')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamp('last_seen')->nullable();
+            $table->boolean('is_Admin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

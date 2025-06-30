@@ -56,7 +56,7 @@ class LoginTest extends TestCase
     /**
      * Checks if authenticated user logout
      */
-    public function test_auth_user_can_logout()
+    public function test_user_can_logout_when_authenticated()
     {
 
         $user = User::factory()->create();
@@ -145,7 +145,7 @@ class LoginTest extends TestCase
      * Testing if a user can access the logout route, 
      * even if they are not log-in
      */
-    public function test_guest_user_cannot_logout()
+    public function test_user_cannot_logout_when_guest()
     {
 
         // you can also send CSRF TOKEN through this

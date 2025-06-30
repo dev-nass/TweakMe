@@ -21,7 +21,7 @@ class PostFactory extends Factory
             'user_id' => User::factory(),
             'title' => fake()->word(),
             'content' => fake()->text(255),
-            'audience' => fake()->randomElement(['friends', 'public']),
+            'audience' => fake()->randomElement(['public']),
         ];
     }
 }

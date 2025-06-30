@@ -57,9 +57,13 @@
         @foreach ($posts as $post)
         <!-- only renders if the post poster is a friend of current auth user or if the post is public -->
         @if ($post->user->friends()->contains('id', Auth::id()) || $post->audience === 'public')
-            <x-post-container :post="$post" />
+            <x-post-container :post="$post" />            
         @endif
         @endforeach
+
+        @if (blank($posts))
+            <p class="text-center">No Posts Yet</p>
+        @endif
 
         {{ $posts->links() }}
     </section>

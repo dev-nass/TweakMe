@@ -38,7 +38,7 @@ class LikeController extends Controller
                 'excerpt'        => Str::limit('has liked your post', 50),
             ],
         ]);
-
+        
         // WHERE DOES THIS RETURNS TOO???
         return response()->json(['message' => 'Liked']);
     }

@@ -92,6 +92,9 @@ class PostTest extends TestCase
             'tags' => 'glad,testing'
         ];
 
+        $postz = 'hjahjdhajdh';
+        
+
         // we are storing the data here
         $response = $this->actingAs($this->user)->post(route('posts.store', $post));
 
@@ -145,7 +148,8 @@ class PostTest extends TestCase
         $response->assertSee($post->content, false);
         $response->assertViewHas('post', $post);
     }
-
+    
+    
     // sad path
     public function test_post_update_throws_validation_error_redirects_back_to_edit_form()
     {
@@ -171,5 +175,20 @@ class PostTest extends TestCase
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['title', 'content', 'tags']);
         $response->assertRedirect();
+    }
+
+
+    public function test_post_delete()
+    {
+
+        $post = Post::factory()->create();
+
+
+        $response = $this->actingAs($post->user)->delete(route('posts.delete', $post));
+
+        $response->assertStatus(302);
+        $response->assertRedirect();
+
+        $this->assertDatabaseMissing('posts', $post->getAttributes());
     }
 }

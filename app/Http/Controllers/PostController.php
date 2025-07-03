@@ -72,7 +72,7 @@ class PostController extends Controller
         ]);
     }
 
-
+    
     /**
      * Loads the view and specific record
      * for Editing
